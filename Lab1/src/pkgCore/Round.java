@@ -6,51 +6,61 @@ public class Round {
 
 	private int ComeOutScore;
 	private eGameResult eGameResult;
-	private LinkedList<Roll> rolls = new LinkedList<Roll>();
-	
-	public static void main(String[] args) {
-		
-	}
-	
-	public void rollDice()
-	{
-		roll r = new roll();
-		rolls.add(r);
-	}
-	
-	public boolean isComeOut()
-	{
-		return (rolls.size()==1 ? true:false);
-	}
-	
-	public byte ComeOutRoll()
-	{
-		return rolls.getFirst().ScoreRoll();
-		
-	}
-	
-	public boolean isNatural()
-	{
-		return ComeOutRoll().isNatural();
-	}
-	
-	public for RollLoop();
-			{
-	
-			}
-	
+	private LinkedList<Roll> roll = new LinkedList<Roll>();
+	int Score = 0;
+
 	public Round() {
-		// TODO: Execute Come Out roll, value ComeOutScore
+		Roll r = new Roll();
+		roll.add(r);
+		ComeOutScore = r.getScore();
 
-		// TODO: Create a loop that will execute a roll until point is made, or
-		// seven-out
+		if (ComeOutScore == 2 || ComeOutScore == 3 || ComeOutScore == 12) {
+			eGameResult = eGameResult.CRAPS;
+		}
 
-		// TODO: value the eGameResult after the round is complete
+		else if (ComeOutScore == 7 || ComeOutScore == 11) {
+
+			eGameResult = eGameResult.NATURAL;
+		}
+
+		else {
+
+			do {
+				r = new Roll();
+				roll.add(r);
+
+			} while (ComeOutScore != r.getScore() || r.getScore() != 7);
+
+			eGameResult = (r.getScore() == ComeOutScore) ? eGameResult.POINT : eGameResult.SEVEN_OUT;
+		}
 	}
 
 	public int RollCount() {
-		// Return the roll count
 		return 0;
 	}
 
+	public static boolean isNatural(int iScore) {
+		return (iScore == 7 || iScore == 11);
+	}
+
+	public static boolean isCraps(int iScore) {
+		return (iScore == 2 || iScore == 3 || iScore == 12);
+	}
+
+
+	public eGameResult geteGameResult() {
+		return eGameResult;
+	}
+
+	public void seteGameResult(eGameResult eGameResult) {
+		this.eGameResult = eGameResult;
+	}
+
+	public int FirstRoll() {
+		return roll.getFirst().getScore();
+	}
+
+	public int LastRoll() {
+		return roll.getLast().getScore();
+	}
 }
